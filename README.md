@@ -1,10 +1,10 @@
-# Race Tracker v2
+# Race Tracker
 
 A real-time GPS-based race tracking system using LoRa communication and a web dashboard.
 
 ## Overview
 
-Race Tracker v2 is a complete system for tracking racing vehicles in real-time with:
+Race Tracker is a complete system for tracking racing vehicles in real-time with:
 - **LoRa-based GPS position reporting** from mobile trackers
 - **Driver alert/incident detection** system
 - **Web dashboard** for live tracking and race management
@@ -13,7 +13,7 @@ Race Tracker v2 is a complete system for tracking racing vehicles in real-time w
 
 ## Features
 
-### v2 (Current)
+### (Current)
 - ✅ Real-time GPS position tracking via LoRa (915.2 MHz AU915 region)
 - ✅ Driver alert/incident system with button controls
 - ✅ Web-based live dashboard with map tiles
@@ -22,7 +22,7 @@ Race Tracker v2 is a complete system for tracking racing vehicles in real-time w
 - ✅ Battery monitoring on all trackers
 - ✅ Automatic GPS registration and synchronization
 
-### v3 (Planned)
+### v2 (Planned)
 - 🔄 Lap timing and finish line detection
 - 🔄 Race scoring and leaderboard
 - 🔄 Advanced analytics and telemetry
