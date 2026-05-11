@@ -1,0 +1,38 @@
+{
+  "cars": {
+    "14": {
+      "car_id": 14,
+      "name": "U14",
+      "registered_at": 1777851618
+    }
+  },
+  "positions": [],
+  "events": [
+    {
+      "car_id": 14,
+      "type": "register",
+      "timestamp": 1777894748,
+      "lat": null,
+      "lon": null,
+      "data": "{}",
+      "received_at": 1777851548
+    },
+    {
+      "car_id": 14,
+      "type": "register",
+      "timestamp": 1777894819,
+      "lat": null,
+      "lon": null,
+      "data": "{}",
+      "received_at": 1777851618
+    }
+  ],
+  "config": {
+    "config_version": "0",
+    "line_lat1": "0",
+    "line_lon1": "0",
+    "line_lat2": "0",
+    "line_lon2": "0",
+    "line_width_m": "0"
+  }
+}

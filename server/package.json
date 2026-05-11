@@ -1,0 +1,21 @@
+{
+  "name": "race-tracking-server",
+  "version": "1.0.0",
+  "description": "Race Tracking live dashboard server — Odroid M1S",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node src/index.js",
+    "serial:path": "bash scripts/print_gateway_serial_path.sh",
+    "start:serial-usb": "bash scripts/start_serial_gateway.sh"
+  },
+  "dependencies": {
+    "@serialport/parser-readline": "^12.0.0",
+    "better-sqlite3": "11.8.1",
+    "express": "^4.19.2",
+    "leaflet": "^1.9.4",
+    "serialport": "^12.0.0",
+    "sql.js": "^1.12.0",
+    "ws": "^8.17.1"
+  }
+}

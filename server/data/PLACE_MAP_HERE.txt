@@ -1,0 +1,7 @@
+Place your offline map file here as:   map.mbtiles
+
+Download a regional extract from:
+  - https://protomaps.com/downloads/osm  (free, single-file PMTiles/MBTiles)
+  - https://extract.bbbike.org           (free OpenStreetMap bbox extract)
+
+race.db is created automatically by the server on first start.

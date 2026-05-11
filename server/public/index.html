@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' ws: wss:; font-src 'self' data:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>Race Tracking — Live Dashboard</title>
+
+  <!-- Leaflet (bundled copy served from /public/lib — add leaflet.js + leaflet.css there,
+       or replace these with CDN URLs when an internet connection is available for setup) -->
+  <link  rel="stylesheet" href="lib/leaflet.css">
+  <script src="lib/leaflet.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      display: flex;
+      height: 100vh;
+      font-family: system-ui, sans-serif;
+      background: #0d0d0d;
+      color: #e8e8e8;
+    }
+
+    /* ---- Sidebar ---- */
+    #sidebar {
+      width: 320px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      background: #1a1a1a;
+      border-right: 1px solid #333;
+      overflow-y: auto;
+    }
+
+    #sidebar h1 {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 12px 14px;
+      border-bottom: 1px solid #333;
+      color: #fff;
+    }
+
+    #status-bar {
+      font-size: 0.72rem;
+      padding: 6px 14px;
+      border-bottom: 1px solid #333;
+      color: #888;
+    }
+
+    #status-bar.connected { color: #4caf50; }
+    #status-bar.warning   { color: #ff9800; }
+    #status-bar.error     { color: #f44336; }
+
+    #race-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-bottom: 1px solid #333;
+    }
+
+    #race-state {
+      font-size: 0.7rem;
+      color: #bbb;
+      flex: 1;
+    }
+
+    .race-btn {
+      font-size: 0.7rem;
+      border: 1px solid #555;
+      background: #242424;
+      color: #f2f2f2;
+      border-radius: 4px;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+
+    .race-btn:hover { background: #2d2d2d; }
+
+    #race-start.active {
+      border-color: #4caf50;
+      color: #9ee6a2;
+    }
+
+    #race-stop.active {
+      border-color: #ef5350;
+      color: #ffb3b3;
+    }
+
+    #car-list { flex: 1; padding: 8px; }
+
+    #logs-link-wrap {
+      border-top: 1px solid #333;
+      padding: 8px 12px 10px;
+    }
+
+    #logs-link {
+      display: inline-block;
+      font-size: 0.78rem;
+      color: #8bc34a;
+      text-decoration: none;
+    }
+
+    #logs-link:hover { text-decoration: underline; }
+
+    .car-card {
+      background: #252525;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.15s;
+    }
+    .car-card:hover          { border-color: #555; }
+    .car-card.active         { border-color: #4caf50; }
+    .car-card.stale          { border-color: #ff9800; }
+    .car-card.lost           { border-color: #ff9800; }
+    .car-card.idle           { border-color: #efefef; }
+    .car-card.alerting       {
+      border-color: #ff1744 !important;
+      box-shadow: 0 0 0 2px rgba(255, 23, 68, 0.65) inset;
+      animation: alertPulse 0.45s infinite alternate;
+    }
+
+    @keyframes alertPulse {
+      from { filter: brightness(1); }
+      to   { filter: brightness(1.25); }
+    }
+
+    .car-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .car-number {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .car-badge {
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 99px;
+      background: #4caf50;
+      color: #fff;
+    }
+    .car-badge.stale { background: #ff9800; }
+    .car-badge.lost  { background: #ff9800; }
+    .car-badge.idle  { background: #efefef; color: #111; }
+
+    .cancel-alert-btn {
+      margin-left: 8px;
+      font-size: 0.66rem;
+      padding: 3px 7px;
+      border: 1px solid #ff6e85;
+      border-radius: 999px;
+      background: #3a1018;
+      color: #ffe5ea;
+      cursor: pointer;
+      display: none;
+    }
+    .cancel-alert-btn:hover {
+      background: #551824;
+    }
+
+    .car-stats {
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: #aaa;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2px 8px;
+    }
+    .car-stats span {
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .car-stats .car-wide {
+      grid-column: 1 / -1;
+    }
+
+    .driver-edit {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .driver-input {
+      flex: 1;
+      min-width: 0;
+      border: 1px solid #444;
+      background: #1e1e1e;
+      color: #ddd;
+      border-radius: 4px;
+      padding: 3px 6px;
+      font-size: 0.7rem;
+    }
+
+    .driver-save {
+      border: 1px solid #4caf50;
+      background: #1e2f20;
+      color: #c8f7cc;
+      border-radius: 4px;
+      padding: 3px 6px;
+      font-size: 0.68rem;
+      cursor: pointer;
+    }
+
+    .driver-save:hover {
+      background: #28422b;
+    }
+
+    @media (max-width: 900px) {
+      #sidebar {
+        width: 280px;
+      }
+      .car-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ---- Alert banner ---- */
+    #alert-banner {
+      display: none;
+      background: #b71c1c;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 8px 14px;
+      border-bottom: 1px solid #333;
+      animation: flash 0.6s infinite alternate;
+    }
+    @keyframes flash { from { opacity: 1; } to { opacity: 0.5; } }
+
+    /* ---- Map ---- */
+    #map {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+
+<div id="sidebar">
+  <h1>&#127937; Race Tracking</h1>
+  <div id="alert-banner">&#9888; ALERT — Car <span id="alert-car"></span> — <span id="alert-reason"></span></div>
+  <div id="status-bar">Connecting…</div>
+  <div id="race-controls">
+    <span id="race-state">Race: STOPPED</span>
+    <button id="race-start" class="race-btn" type="button">Race Start</button>
+    <button id="race-stop" class="race-btn active" type="button">Race Stop</button>
+  </div>
+  <div id="tile-debug" style="font-size:0.68rem;padding:6px 14px;border-bottom:1px solid #333;color:#9e9e9e;word-break:break-word;">Tile check: pending…</div>
+  <div id="car-list"></div>
+  <div id="logs-link-wrap"><a id="logs-link" href="/logs.html">Open GPS Logs Map</a> · <a id="logs-link" href="/config.html">Config</a></div>
+</div>
+
+<div id="map"></div>
+
+<script src="app.js?v=20260509f"></script>
+</body>
+</html>

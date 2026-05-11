@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' ws: wss:; font-src 'self' data:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>Race Tracking — Config</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, sans-serif;
+      background: #101214;
+      color: #eceff1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .panel {
+      width: min(520px, calc(100vw - 32px));
+      background: #1b1f24;
+      border: 1px solid #2e353d;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+    }
+    p {
+      margin: 0 0 14px;
+      color: #b9c0c7;
+      line-height: 1.45;
+    }
+    .danger-box {
+      border: 1px solid #8f2d2d;
+      background: #281516;
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 16px;
+    }
+    .danger-btn {
+      border: 1px solid #ff6b6b;
+      background: #4a1f1f;
+      color: #ffe3e3;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+    .danger-btn:hover {
+      background: #612727;
+    }
+    .danger-btn:disabled {
+      opacity: 0.7;
+      cursor: wait;
+    }
+    #status {
+      margin-top: 12px;
+      font-size: 0.9rem;
+      color: #cfd8dc;
+      min-height: 1.2em;
+    }
+    a {
+      color: #8bc34a;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <h1>Config</h1>
+    <p>Administrative actions for the race-tracking server.</p>
+    <p><a href="/">Back to dashboard</a></p>
+
+    <div class="danger-box">
+      <h1 style="font-size:1rem;margin-bottom:8px;">Safe Shutdown</h1>
+      <p>Use this to stop the Odroid cleanly before power removal.</p>
+      <button id="shutdown-btn" class="danger-btn" type="button">Shutdown Server</button>
+      <div id="status"></div>
+    </div>
+  </div>
+
+  <script src="config.js?v=20260509a"></script>
+</body>
+</html>

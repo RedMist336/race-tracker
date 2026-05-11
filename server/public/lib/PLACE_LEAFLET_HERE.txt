@@ -1,0 +1,9 @@
+Place Leaflet distribution files here:
+
+  leaflet.css
+  leaflet.js
+
+Download from https://leafletjs.com/download.html (latest stable release).
+Unzip and copy leaflet.css and leaflet.js (not the -src versions) into this folder.
+
+This keeps the dashboard fully offline — no CDN dependency.

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' ws: wss:; font-src 'self' data:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>Race Tracking — GPS Logs</title>
+
+  <link rel="stylesheet" href="lib/leaflet.css">
+  <script src="lib/leaflet.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      font-family: system-ui, sans-serif;
+      background: #111;
+      color: #f1f1f1;
+    }
+    #sidebar {
+      width: 320px;
+      border-right: 1px solid #333;
+      background: #181818;
+      padding: 12px;
+      overflow-y: auto;
+    }
+    #sidebar h1 {
+      font-size: 1rem;
+      margin: 0 0 10px;
+    }
+    .row { margin-bottom: 10px; }
+    label { display: block; font-size: 0.75rem; color: #aaa; margin-bottom: 4px; }
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #444;
+      background: #252525;
+      color: #f1f1f1;
+      border-radius: 4px;
+    }
+    .log-item {
+      margin-top: 8px;
+      padding: 8px;
+      border: 1px solid #333;
+      border-radius: 4px;
+      background: #202020;
+      cursor: pointer;
+    }
+    .log-item.active {
+      border-color: #4caf50;
+      box-shadow: 0 0 0 1px rgba(76, 175, 80, 0.5) inset;
+    }
+    .meta { font-size: 0.74rem; color: #bbb; margin-top: 4px; }
+    .log-actions {
+      margin-top: 8px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .delete-log-btn {
+      border: 1px solid #c62828;
+      background: #3a1313;
+      color: #ffcdd2;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 0.72rem;
+      cursor: pointer;
+    }
+    .delete-log-btn:hover {
+      background: #4e1717;
+    }
+    #status { font-size: 0.78rem; color: #9e9e9e; margin-bottom: 8px; }
+    #map { flex: 1; }
+    #back-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #8bc34a;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+    <h1>GPS Log Viewer</h1>
+    <div id="status">Loading log files...</div>
+
+    <div class="row">
+      <label for="car-filter">Car</label>
+      <select id="car-filter"></select>
+    </div>
+
+    <div class="row">
+      <label for="date-filter">Log Date</label>
+      <select id="date-filter"></select>
+    </div>
+
+    <div id="log-list"></div>
+
+    <a id="back-link" href="/">Back to Live Dashboard</a>
+  </div>
+
+  <div id="map"></div>
+
+  <script src="logs.js?v=20260509b"></script>
+</body>
+</html>
