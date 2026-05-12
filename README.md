@@ -138,7 +138,7 @@ Open browser to: `http://192.168.0.1:3000` (or server IP:3000)
 1. **STATE_INIT** → Acquire GPS fix
 2. **STATE_GPS_ACQUIRING** → Wait for valid fix + altitude
 3. **STATE_REGISTERING** → Send registration, wait for ACK from gateway
-4. **STATE_OPERATIONAL** → Send GPS updates every 2 seconds
+4. **STATE_OPERATIONAL** → Send GPS updates every 90 seconds (configurable based on link budget)
 
 ### Button Controls
 
@@ -259,7 +259,7 @@ SERIAL_GATEWAY_PREFIX=RTJSON:
 
 | Metric | Value |
 |--------|-------|
-| Update Interval | 2 seconds (configurable) |
+| Update Interval | 90 seconds (configurable) |
 | LoRa Range | ~5-10 km (line-of-sight, AU915) |
 | Tracker Battery Life | ~8-12 hours continuous |
 | Gateway Power | ~2W idle, ~4W TX |
