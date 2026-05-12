@@ -15,18 +15,18 @@ Race Tracker supports Over-The-Air (OTA) firmware updates for both gateway and t
 
 ### WiFi Credentials
 
-Edit the appropriate config file:
+Edit the appropriate config file with YOUR network credentials:
 
 #### Tracker (`firmware/tracker/include/config.h`)
 ```cpp
-#define WIFI_SSID "CORC"
-#define WIFI_PASSWORD "LetsRace"
+#define WIFI_SSID "YOUR_NETWORK_NAME"
+#define WIFI_PASSWORD "YOUR_SECURE_PASSWORD"
 ```
 
 #### Gateway (`firmware/gateway/include/config.h`)
 ```cpp
-#define WIFI_SSID "CORC"
-#define WIFI_PASSWORD "LetsRace"
+#define WIFI_SSID "YOUR_NETWORK_NAME"
+#define WIFI_PASSWORD "YOUR_SECURE_PASSWORD"
 ```
 
 ### OTA Settings

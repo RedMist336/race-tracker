@@ -425,8 +425,8 @@ pio run -e gateway -t upload --upload-port COM7
 1. **SSID/Password Wrong**
    - Check `config.h` for typos:
      ```cpp
-     #define WIFI_SSID "CORC"
-     #define WIFI_PASSWORD "LetsRace"
+     #define WIFI_SSID "YOUR_NETWORK_NAME"
+     #define WIFI_PASSWORD "YOUR_SECURE_PASSWORD"
      ```
    - Spaces matter: "CORC " ≠ "CORC"
 
