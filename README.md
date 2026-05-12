@@ -1,6 +1,6 @@
 # Race Tracker
 
-A real-time GPS-based race tracking system using LoRa communication and a web dashboard.
+A real-time GPS-based race tracking and alert system using LoRa communication and a web dashboard. For additional detail, over and above the Lora link budget, the tracker can attach to a wifi network and automatically upload all GPS tracking data to the web dashboard. 
 
 ## Overview
 
@@ -8,7 +8,8 @@ Race Tracker is a complete system for tracking racing vehicles in real-time with
 - **LoRa-based GPS position reporting** from mobile trackers
 - **Driver alert/incident detection** system
 - **Web dashboard** for live tracking and race management
-- **OTA firmware updates** for both gateway and trackers
+- **Wifi upload of detail tracking data** for offline detail analysis of GPS path. 
+- **ESP32 OTA firmware updates** for both gateway and trackers
 - **Serial gateway bridge** connecting LoRa network to centralized server
 
 ## Features
